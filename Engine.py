@@ -233,6 +233,7 @@ class Engine:
                             self.towers[objectId].playerId = playerKey
                             self.players[playerKey].towers.append(self.towers[objectId])
                             self.towers[objectId].hp = C.TOWER_HP
+                            self.arena[unit.target[0]][unit.target[1]] = [C.TOWER, playerKey, objectId]
 
                     if(objectType == C.HQ and owner != playerKey):
                         self.hqs[objectId].isAttacked = True
@@ -244,6 +245,7 @@ class Engine:
                                 self.players[owner].hqs.remove(self.hqs[objectId])
                             self.players[playerKey].hqs.append(self.hqs[objectId])
                             self.hqs[objectId].hp = C.HQ_HP
+                            self.arena[unit.target[0]][unit.target[1]] = [C.HQ, playerKey, objectId]
                             # check player is still alive
                             if(len(self.players[owner].hqs) == 0):
                                 self.players[owner].isDead = True
