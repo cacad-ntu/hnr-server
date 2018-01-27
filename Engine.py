@@ -195,7 +195,7 @@ class Engine:
                         # change ownership
                         if(self.towers[objectId].hp == 0):
                             self.towers[objectId].playerId = playerKey
-                            if(self.towers[objectId] in self.players[owner].towers):
+                            if(owner != C.NEUTRAL_UNIT and self.towers[objectId] in self.players[owner].towers):
                                 self.players[owner].towers.remove(self.towers[objectId])
                             self.players[playerKey].towers.append(self.towers[objectId])
 
