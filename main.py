@@ -45,8 +45,8 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         if self not in CLIENTS:
             player = GE.spawn_player()
             CLIENTS.append([self, player.id])
-
-        msg = {"type": MSG_REGISTER, "player": player.id}
+        payload = {"player_id": player.id}
+        msg = {"type": MSG_REGISTER, "payload": payload}
         self.write_message(msg)
         print("Client count: ", len(CLIENTS))
 
@@ -81,15 +81,22 @@ def update_client():
 
     for player, pid in CLIENTS:
         msg = {}
+        payload = {}
+
         if GE.players[pid].isDead:
             msg["type"] = MSG_DEAD
+            msg["payload"] = payload
+
             player.write_message(msg)
             player.on_close()
             continue
 
+        payload["map"] = GE.arena
+        payload["player_map"] = GE.players[pid].playerMap
+
         msg["type"] = MSG_UPDATE
-        msg["map"] = GE.arena
-        msg["player_map"] = GE.players[pid].playerMap
+        msg["payload"] = payload
+
         player.write_message(msg)
 
 def main():
