@@ -12,6 +12,13 @@ class Constants:
     UNIT = 3
 
     # directions
+    BOTTOM_RIGHT = 0
+    TOP_RIGHT = 1
+    TOP = 2
+    TOP_LEFT = 3
+    BOTTOM_LEFT = 4
+    BOTTOM = 5
+
 
     MIN_PLAYERS = 3
     

@@ -41,7 +41,7 @@ class Engine:
         # TODO: add new player, units, and hq
         newID = self.currentID
         self.currentID += 1
-        player = Player(newID, [], [], [], C.INITIAL_POPULATION, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
+        player = Player(newID, {}, [], [], C.INITIAL_POPULATION, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
         self.players[newID] = player
         self.hqs[newID] = player.hqs[0]
         self.update_map()
@@ -55,13 +55,13 @@ class Engine:
         for player in self.players:
             player.update()
 
-    def issue_command(self, playerId, units, command):
-        self.players[playerId].issue_command(units, command)
+    def issue_command(self, playerId, units, target):
+        self.players[playerId].issue_command(units, target)
     
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
         for key, value in self.players.items():
-            for unit in value.units:
+            for key, unit in value.units.items():
                 self.arena[unit.coord[0]][unit.coord[1]] = [C.UNIT, key, unit.id]
             for tower in value.towers:
                 self.arena[tower.coord[0]][tower.coord[1]] = [C.TOWER, key, tower.id]
