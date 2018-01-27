@@ -7,6 +7,9 @@ class Constants:
     # objects
     NEUTRAL_UNIT = -1
     EMPTY = [0, NEUTRAL_UNIT, NEUTRAL_UNIT]
+
+    # object types
+    EMPTY_CELL = 0
     HQ = 1
     TOWER = 2
     UNIT = 3

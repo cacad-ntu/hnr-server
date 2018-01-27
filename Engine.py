@@ -12,7 +12,7 @@ class Engine:
         self.towers = {}
         self.hqs = {}
         self.grids = Grid(C.COL, C.ROW)
-        self.arena = None # get arena with size (row, col) TODO: Eric
+        self.arena = None
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
         self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
@@ -31,14 +31,13 @@ class Engine:
         return self.HQCoords[len(self.hqs)]
 
     def spawn_tower(self):
-        # TODO: spawn neutral towers, add neutral units
+        # TODO: spawn neutral units
         for i in range(C.TOWERS_COUNT):
             towerCoord = self.get_next_tower_coord()
             tower = Tower(i, C.NEUTRAL_UNIT, towerCoord, C.TOWER_POPULATION)
             self.towers[i] = tower
 
     def spawn_player(self):
-        # TODO: add new player, units, and hq
         newID = self.currentID
         self.currentID += 1
         player = Player(newID, {}, [], [], 0, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
@@ -65,7 +64,6 @@ class Engine:
             for cell in area:
                 if(cell == self.players[playerId].hqs[0].coord or self.arena[cell[0]][cell[1]][0] != 0):
                     continue
-                # TODO: if starting units are more than 6, please fix this logic
                 newId = self.players[playerId].add_unit(cell)
                 self.arena[cell[0]][cell[1]] = [C.UNIT, playerId, newId]
                 flag = False
