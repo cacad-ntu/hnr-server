@@ -30,8 +30,7 @@ class MainHandler(tornado.web.RequestHandler):
     Http handler
     """
     def get(self):
-        self.write("Hello World")
-        #self.render("index.html")
+        self.render("index.html")
 
 
 class SocketHandler(tornado.websocket.WebSocketHandler):
@@ -83,7 +82,7 @@ def update_client():
     for player, pid in CLIENTS:
         msg = {}
         payload = {}
-
+		
         if GE.players[pid].isDead:
             msg["type"] = MSG_DEAD
             msg["payload"] = payload
