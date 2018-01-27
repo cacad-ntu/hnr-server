@@ -27,7 +27,7 @@ class Constants:
     MIN_PLAYERS = 3
     
 
-    TOWERS_COUNT = 5
+    TOWERS_COUNT = 10
     TOWER_POINTS = 10
     STARTING_UNITS_COUNT = 6
     HQ_POINTS = 15

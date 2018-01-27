@@ -77,7 +77,7 @@ class Grid:
 		
 		return -1
 
-
+	
 	def bfs(self, source, target, playerId, arena):
 		source = tuple(source)
 		target = tuple(target)
@@ -92,8 +92,12 @@ class Grid:
 
 		found = False
 
+		iterations = 0
+
 		while not q.empty():
 			u = q.get()
+
+			iterations += 1
 
 			if u == target: 
 				found = True
@@ -121,9 +125,63 @@ class Grid:
 			ret.append(cur)
 
 		temp = ret[::-1]
+
+		#print("BFS iterations:",iterations)
 		return temp[1:]
+	
 
+	
+	def dfs(self, source, target, playerId, arena):
+		source = tuple(source)
+		target = tuple(target)
+		if source == target: return []
+		
+		q = []
+		q.append(source)
+		visited = set()
+		visited.add(source)
 
+		par = {}
+
+		found = False
+
+		iterations = 0
+
+		while len(q) != 0:
+			u = q.pop()
+			
+			iterations += 1
+
+			if u == target: 
+				found = True
+				break
+
+			directions = self.getDirections(u,target)[::-1]
+
+			for it in directions:
+				nx = self.move(u,it)
+
+				if 0 <= nx[0] < self.cols and 0 <= nx[1] < self.rows and self.is_free(nx,playerId,arena) and nx not in visited:
+					visited.add(nx)
+					q.append(nx)
+					par[nx] = u
+
+		if not found:
+			return []
+		
+		ret = [target]
+
+		cur = target
+
+		while cur != source:
+			cur = par[cur]
+			ret.append(cur)
+
+		temp = ret[::-1]
+
+		#print("DFS iterations:",iterations)
+		return temp[1:]
+	
 	def is_free(self, coord, playerId, arena):
 		objectType = arena[coord[0]][coord[1]][0]
 		owner = arena[coord[0]][coord[1]][1]

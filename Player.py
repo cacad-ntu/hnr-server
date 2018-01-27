@@ -95,10 +95,10 @@ class Player:
                 newCoord = self.grids.move(unit.coord, direction)
 
 
-                # bfs
+                # dfs
                 unit = self.units[key]
                 if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
-                    self.units[key].path = self.grids.bfs(unit.coord, unit.target, self.id, arena)
+                    self.units[key].path = self.grids.dfs(unit.coord, unit.target, self.id, arena)
                     self.units[key].pathIndex = 0    
                 if(len(unit.path) > unit.pathIndex):
                     newCoord = unit.path[unit.pathIndex]
