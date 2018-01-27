@@ -29,6 +29,8 @@ class Engine:
         """ get all towers in form of dictionary """
         json_towers = []
         for tower in self.towers.values():
+            if not tower:
+                continue
             json_towers.append(tower.to_json())
         return json_towers
 
@@ -36,6 +38,8 @@ class Engine:
         """ get all hqs in form of dictionary """
         json_hqs = []
         for hq in self.hqs.values():
+            if not hq:
+                continue
             json_hqs.append(hq.to_json())
         return json_hqs
 
