@@ -99,6 +99,8 @@ class Player:
                 else:
                     self.units[key].prevPos = self.units[key].coord
                     self.units[key].coord = newCoord
+                    if(newCoord[0] < 0 or newCoord[0] >= C.COL or newCoord[1] < 0 or newCoord[1] >= C.ROW):
+                        continue
                     arena[newCoord[0]][newCoord[1]] = [C.UNIT, self.id, key]
                 # unit = self.units[key]
                 # if(len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
