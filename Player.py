@@ -104,7 +104,7 @@ class Player:
                     newCoord = unit.path[unit.pathIndex]
                     self.units[key].pathIndex += 1
                     
-"""=======
+                """=======
                 # bfs
                 if use_bfs:
                     unit = self.units[key]
@@ -115,8 +115,8 @@ class Player:
                         newCoord = unit.path[unit.pathIndex]
                         self.units[key].pathIndex += 1
 
->>>>>>> 7d1e03de6d5d3586dd0e5922b66fd3d71a8b6297
-"""
+                >>>>>>> 7d1e03de6d5d3586dd0e5922b66fd3d71a8b6297
+                """
                 if(newCoord == self.units[key].prevPos):
                     self.units[key].stuckedCounter += 1
                 else:
