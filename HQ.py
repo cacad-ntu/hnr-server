@@ -6,3 +6,4 @@ class HQ:
         self.coord = coord
         self.isAttacked = False
         self.hp = C.HQ_HP
+        self.attacker = None

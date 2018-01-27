@@ -48,6 +48,18 @@ class Engine:
         self.update_map()
         return player
 
+    def remove_player(self, id):
+        self.players[id].isDead = True
+        self.cleanup_player(id)
+    
+    def cleanup_player(self, id):
+        for hq in self.players[id].hqs:
+            self.hqs[hq.id] = None
+        for tower in self.players[id].towers:
+            self.towers[tower.id].playerId = C.NEUTRAL_UNIT
+            self.towers[tower.id].hp = C.TOWER_HP
+
+
     def spawn_unit(self, playerId):
         if(self.players[playerId].population == self.players[playerId].capacity):
             return
@@ -80,6 +92,8 @@ class Engine:
         self.update_attack_progress()
 
         for key, value in self.players.items():
+            if(value.isDead):
+                continue
             value.update(self.arena)
         self.update_map()
         self.newUnitCounter -= 1
@@ -142,7 +156,9 @@ class Engine:
     def update_attack_progress(self):
         for towerKey, tower in self.towers.items():
             self.towers[towerKey].isAttacked = False
-        for hqKey, tower in self.hqs.items():
+        for hqKey, hq in self.hqs.items():
+            if(hq == None):
+                continue
             self.hqs[hqKey].isAttacked = False
 
         for playerKey, player in self.players.items():
@@ -157,18 +173,43 @@ class Engine:
                     objectId = self.arena[unit.target[0]][unit.target[1]][2]
                     if(objectType == C.TOWER):
                         self.towers[objectId].isAttacked = True
+                        self.towers[objectId].attacker = playerKey
+                        # change ownership
+                        if(self.towers[objectId].hp == 0):
+                            self.towers[objectId].playerId = playerKey
+                            if(self.towers[objectId] in self.players[owner].towers):
+                                self.players[owner].towers.remove(self.towers[objectId])
+                            self.players[playerKey].towers.append(self.towers[objectId])
+
                     if(objectType == C.HQ):
                         self.hqs[objectId].isAttacked = True
+                        self.towers[objectId].attacker = playerKey
+                        # change ownership
+                        if(self.hqs[objectId].hp == 0):
+                            self.hqs[objectId].playerId = playerKey
+                            if(self.hqs[objectId] in self.players[owner].hqs):
+                                self.players[owner].hqs.remove(self.hqs[objectId])
+                            self.players[playerKey].hqs.append(self.hqs[objectId])
+                            # check player is still alive
+                            if(len(self.players[owner].hqs) == 0):
+                                self.players[owner].isDead = True
+                                self.cleanup_player(owner)
+
         
         for towerKey, tower in self.towers.items():
             if(not self.towers[towerKey].isAttacked):
-                self.towers[towerKey].hp = C.TOWER_HP
+                if(self.towers[towerKey].hp < C.TOWER_HP):
+                    self.towers[towerKey].hp += 1
             else:
                 self.towers[towerKey].hp -= 1
+
         for hqKey, tower in self.hqs.items():
+            if(hq == None):
+                continue
             if(not self.hqs[hqKey].isAttacked):
-                self.hqs[hqKey].hp = C.HQ_HP
+                if(self.hqs[hqKey].hp < C.HQ_HP):
+                    self.hqs[hqKey].hp += 1
             else:
                 self.hqs[hqKey].hp -= 1
-                
+
 

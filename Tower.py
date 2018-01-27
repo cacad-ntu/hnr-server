@@ -8,3 +8,4 @@ class Tower:
         self.counter = 0
         self.isAttacked = False
         self.hp = C.TOWER_HP
+        self.attacker = None

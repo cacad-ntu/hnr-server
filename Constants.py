@@ -45,5 +45,5 @@ class Constants:
 
     NEW_UNIT_TICKS = 7
 
-    HQ_HP = 100
-    TOWER_HP = 50
+    HQ_HP = 30
+    TOWER_HP = 15
