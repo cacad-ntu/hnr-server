@@ -38,8 +38,8 @@ class Constants:
     INITIAL_POPULATION = 6
     
     UNIT_SIGHT_RADIUS = 2
-    TOWER_SIGHT_RADIUS = 4
-    HQ_SIGHT_RADIUS = 5
+    TOWER_SIGHT_RADIUS = 3
+    HQ_SIGHT_RADIUS = 4
 
     VISIBLE = True
     NOT_VISIBLE = False
