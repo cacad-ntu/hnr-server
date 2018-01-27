@@ -101,6 +101,8 @@ def main():
 
     app = make_app()
     app.listen(WS_PORT)
+
+    print("Listening at port ", WS_PORT)
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
