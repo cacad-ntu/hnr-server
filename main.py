@@ -2,6 +2,7 @@
 Main function to handle websocket
 """
 
+import argparse
 import json
 import signal
 
@@ -116,9 +117,19 @@ def update_client():
 
         player.write_message(msg)
 
-def main():
+def parse_argument():
+    """ Argument parser """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--bfs", help="Use bfs in finding path", action="store_true")
+    arguments = parser.parse_args()
+    return arguments
+
+def main(arg):
     """ Main function """
     signal.signal(signal.SIGINT, signal_handler)
+
+    if arg.bfs:
+        GE.toggle_bfs(True)
 
     callback = tornado.ioloop.PeriodicCallback(update_client, CALLBACK_TIME)
     callback.start()
@@ -130,4 +141,5 @@ def main():
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
-    main()
+    args = parse_argument()
+    main(args)
