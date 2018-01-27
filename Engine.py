@@ -15,7 +15,7 @@ class Engine:
         self.arena = None # get arena with size (row, col) TODO: Eric
         self.isDead = False
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
-        self.HQCoords = [(20, 7), (20, 40), (7, 25), (35, 12), (42, 35)]
+        self.HQCoords = [(3, 2), (20, 40), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
         
         # building arena
@@ -63,9 +63,9 @@ class Engine:
         # movement: including units collapsing
         # map visibility: units, hqs, towers
         # attack notification
+        for key, value in self.players.items():
+            value.update()
         self.update_map()
-        for player in self.players:
-            player.update()
 
     def issue_command(self, playerId, units, target):
         self.players[playerId].issue_command(units, target)
