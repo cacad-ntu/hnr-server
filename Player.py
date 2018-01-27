@@ -12,6 +12,7 @@ class Player:
         self.population = population
         self.capacity = capacity
         self.playerMap = playerMap
+        self.isDead = False
         self.grids = grids
         self.init_hq(initialHQCoord)
         self.update_vision()
@@ -54,6 +55,9 @@ class Player:
     def issue_command(self, units, target):
         for id in units:
             self.units[id].target = target
+    
+    def kill_unit(self, unitId):
+        self.units[unitId].isDead = True
 
     def update(self):
         for key, unit in self.units.items():
