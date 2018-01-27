@@ -98,7 +98,9 @@ class Player:
                 # bfs
                 if(not(self.units[key].path != None and len(self.units[key].path) > self.units[key].pathIndex)):
                     self.units[key].path = self.grids.bfs(self.units[key].coord, self.units[key].target, self.id, arena)
-                    self.units[key].pathIndex = 0    
+                    self.units[key].pathIndex = 0
+                if(len(self.units[key].path) == 0):
+                    continue
                 if(self.grids.is_free(self.units[key].path[self.units[key].pathIndex], self.id, arena)):
                     newCoord = self.units[key].path[self.units[key].pathIndex]
                     self.units[key].pathIndex += 1
