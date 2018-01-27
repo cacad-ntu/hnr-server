@@ -63,7 +63,7 @@ class Engine:
         # map visibility: units, hqs, towers
         # attack notification
         for key, value in self.players.items():
-            value.update()
+            value.update(self.arena)
         self.update_map()
         self.update_vision()
 

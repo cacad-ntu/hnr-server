@@ -1,4 +1,5 @@
 from __future__ import division
+from Constants import Constants as C
 	
 class Grid:
 	arr = []	
@@ -60,7 +61,21 @@ class Grid:
 				ret.append(it)
 				
 		return ret
-		
+	
+	def get_move(self, source, target, playerId, arena):
+		# TODO
+		pass
+
+	def is_free(self, coord, playerId, arena):
+		objectType = arena[coord[0]][coord[1]][0]
+		owner = arena[coord[0]][coord[1]][1]
+		if(objectType == C.UNIT and owner == playerId):
+			return False
+		if(objectType == 0):
+			return True
+		return False
+
+
 	def getDirection(self,hex1,hex2):
 		if hex1 == hex2: return -1
 		cube1 = self.offset_to_cube(hex1)
