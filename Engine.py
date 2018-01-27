@@ -163,7 +163,7 @@ class Engine:
         for playerKey, player in self.players.items():
             if(player.isDead):
                 continue
-                player.update_vision()
+            player.update_vision()
 
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
