@@ -90,6 +90,18 @@ class Player:
             if(haveToMove):
                 direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
                 newCoord = self.grids.move(unit.coord, direction)
+
+
+                # bfs
+                unit = self.units[key]
+                if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
+                    self.units[key].path = self.grids.bfs(unit.coord, unit.target, self.id, arena)
+                    self.units[key].pathIndex = 0    
+                if(len(unit.path) > unit.pathIndex):
+                    newCoord = unit.path[unit.pathIndex]
+                    self.units[key].pathIndex += 1
+                    
+
                 if(newCoord == self.units[key].prevPos):
                     self.units[key].stuckedCounter += 1
                 else:
@@ -102,9 +114,4 @@ class Player:
                     if(newCoord[0] < 0 or newCoord[0] >= C.COL or newCoord[1] < 0 or newCoord[1] >= C.ROW):
                         continue
                     arena[newCoord[0]][newCoord[1]] = [C.UNIT, self.id, key]
-                # unit = self.units[key]
-                # if(len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
-                #     self.units[key].coord = unit.path[unit.pathIndex]
-                #     self.units[key].pathIndex += 1
-                # self.grids.bfs(source, target, playerId, arena)
             unit.update()

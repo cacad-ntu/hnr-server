@@ -8,6 +8,8 @@ class Unit:
         self.isDead = False
         self.prevPos = None
         self.stuckedCounter = 0
+        self.path = []
+        self.pathIndex = 0
     
     def update(self):
         if(self.target != None and self.target[0] == self.coord[0] and self.target[1] == self.coord[1]):
