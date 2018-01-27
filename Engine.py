@@ -40,7 +40,7 @@ class Engine:
         # TODO: add new player, units, and hq
         newID = self.currentID
         self.currentID += 1
-        player = Player(newID, {}, [], [], C.INITIAL_POPULATION, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
+        player = Player(newID, {}, [], [], 0, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
         self.players[newID] = player
         self.hqs[newID] = player.hqs[0]
         for i in range(C.STARTING_UNITS_COUNT):
@@ -49,14 +49,28 @@ class Engine:
         return player
 
     def spawn_unit(self, playerId):
-        area = self.grids.cells_within_distance(self.players[playerId].hqs[0].coord, 1)
-        counter = 0
-        for cell in area:
-            if(cell == self.players[playerId].hqs[0].coord or self.arena[cell[0]][cell[1]][0] != 0):
-                continue
-            # TODO: if starting units are more than 6, please fix this logic
-            newId = self.players[playerId].add_unit(cell)
-            self.arena[cell[0]][cell[1]] = [C.UNIT, playerId, newId]
+        if(self.players[playerId].population == self.players[playerId].capacity):
+            return
+        currentRadius = 1
+        flag = True
+        while(flag):
+            area = self.grids.cells_within_distance(self.players[playerId].hqs[0].coord, currentRadius)
+            innerArea = []
+            if(currentRadius > 1):
+                innerArea = self.grids.cells_within_distance(self.players[playerId].hqs[0].coord, currentRadius - 1)
+                for i in innerArea:
+                    if i in area:
+                        area.remove(i)
+            for cell in area:
+                if(cell == self.players[playerId].hqs[0].coord or self.arena[cell[0]][cell[1]][0] != 0):
+                    continue
+                # TODO: if starting units are more than 6, please fix this logic
+                newId = self.players[playerId].add_unit(cell)
+                self.arena[cell[0]][cell[1]] = [C.UNIT, playerId, newId]
+                flag = False
+                break
+            currentRadius += 1
+        self.players[playerId].population += 1
 
     def update(self):
         # movement: including units collapsing
@@ -65,11 +79,18 @@ class Engine:
         for key, value in self.players.items():
             value.update(self.arena)
         self.update_map()
+        self.spawn_new_units()
         self.update_vision()
 
     def issue_command(self, playerId, units, target):
         self.players[playerId].issue_command(units, target)
 
+    def spawn_new_units(self):
+        for playerKey, player in self.players.items():
+            if(player.isDead):
+                continue
+            self.spawn_unit(playerKey)
+            
     def update_vision(self):
         for playerKey, player in self.players.items():
             if(player.isDead):
