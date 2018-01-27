@@ -75,6 +75,10 @@ class Engine:
         # movement: including units collapsing
         # map visibility: units, hqs, towers
         # attack notification
+
+        # check for buildings being attacked
+        self.update_attack_progress()
+
         for key, value in self.players.items():
             value.update(self.arena)
         self.update_map()
@@ -134,3 +138,37 @@ class Engine:
 
         for key, value in self.towers.items():
             self.arena[value.coord[0]][value.coord[1]] = [C.TOWER, C.NEUTRAL_UNIT, value.id]
+
+    def update_attack_progress(self):
+        for towerKey, tower in self.towers.items():
+            self.towers[towerKey].isAttacked = False
+        for hqKey, tower in self.hqs.items():
+            self.hqs[hqKey].isAttacked = False
+
+        for playerKey, player in self.players.items():
+            if(player.isDead):
+                continue
+            for unitKey, unit in player.units.items():
+                if(unit.target == None or unit.isDead):
+                    continue
+                if(self.grids.isNeighbour(unit.coord, unit.target)):
+                    objectType = self.arena[unit.target[0]][unit.target[1]][0]
+                    owner = self.arena[unit.target[0]][unit.target[1]][1]
+                    objectId = self.arena[unit.target[0]][unit.target[1]][2]
+                    if(objectType == C.TOWER):
+                        self.towers[objectId].isAttacked = True
+                    if(objectType == C.HQ):
+                        self.hqs[objectId].isAttacked = True
+        
+        for towerKey, tower in self.towers.items():
+            if(not self.towers[towerKey].isAttacked):
+                self.towers[towerKey].hp = C.TOWER_HP
+            else:
+                self.towers[towerKey].hp -= 1
+        for hqKey, tower in self.hqs.items():
+            if(not self.hqs[hqKey].isAttacked):
+                self.hqs[hqKey].hp = C.HQ_HP
+            else:
+                self.hqs[hqKey].hp -= 1
+                
+

@@ -44,3 +44,6 @@ class Constants:
     NOT_VISIBLE = False
 
     NEW_UNIT_TICKS = 7
+
+    HQ_HP = 100
+    TOWER_HP = 50
