@@ -69,7 +69,9 @@ class Engine:
 
     def get_sorted_players(self):
         """ get player tops player """
-        return sorted(self.players.values(), key=lambda x: x.points, reverse=True)
+        sorted_players = sorted(self.players.values(), key=lambda x: x.points, reverse=True)
+
+        return [{"player_id": player.id, "points": player.points} for player in sorted_players]
 
     def spawn_tower(self):
         # TODO: spawn neutral units
