@@ -49,6 +49,8 @@ class Player:
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for key, i in self.units.items():
+            if(i.isDead):
+                continue
             sight = self.grids.cells_within_distance(i.coord, C.UNIT_SIGHT_RADIUS)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
