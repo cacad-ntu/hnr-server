@@ -231,7 +231,7 @@ class Engine:
 
                     if(objectType == C.HQ):
                         self.hqs[objectId].isAttacked = True
-                        self.towers[objectId].attacker = playerKey
+                        self.hqs[objectId].attacker = playerKey
                         # change ownership
                         if(self.hqs[objectId].hp == 0):
                             self.hqs[objectId].playerId = playerKey
