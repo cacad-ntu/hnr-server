@@ -43,9 +43,16 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         """ On open connection """
-        if self not in CLIENTS:
-            player = GE.spawn_player()
-            CLIENTS.append([self, player.id])
+        for client in CLIENTS:
+            if client[0] == self:
+                player = GE.players[client[1]]
+                payload = {"player_id": player.id, "row": Constants.ROW, "col": Constants.COL}
+                msg = {"type": MSG_REGISTER, "payload": payload}
+                self.write_message(msg)
+                print("Client count: ", len(CLIENTS))
+                return
+        player = GE.spawn_player()
+        CLIENTS.append([self, player.id])
         payload = {"player_id": player.id, "row": Constants.ROW, "col": Constants.COL}
         msg = {"type": MSG_REGISTER, "payload": payload}
         self.write_message(msg)
