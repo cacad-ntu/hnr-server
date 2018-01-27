@@ -68,13 +68,13 @@ class Grid:
 		y2 = hex2[1]
 		 
 	
-g = Grid(10,10)
-cell = tuple([1,2])
+# g = Grid(10,10)
+# cell = tuple([1,2])
 
-arr = g.cells_within_distance(cell,2)
+# arr = g.cells_within_distance(cell,2)
 
-for it in arr:
-	#print(g.offset_distance(cell,it))
-	print(it,g.offset_distance(cell,it))
+# for it in arr:
+# 	#print(g.offset_distance(cell,it))
+# 	print(it,g.offset_distance(cell,it))
 	
-print(g.oddq_offset_neighbor(cell,0))
+# print(g.oddq_offset_neighbor(cell,0))

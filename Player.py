@@ -4,7 +4,7 @@ from HQ import HQ
 from Constants import Constants as C
 
 class Player:
-    def __init__(self, id, units, towers, hq, population, capacity, playerMap, initialHQCoord):
+    def __init__(self, id, units, towers, hq, population, capacity, playerMap, initialHQCoord, grids):
         self.id = id
         self.units = units
         self.towers = towers # in most cases should be empty first
@@ -12,19 +12,26 @@ class Player:
         self.population = population
         self.capacity = capacity
         self.playerMap = playerMap
+        self.grids = grids
         self.init_hq(initialHQCoord)
         self.init_units()
         self.update_vision()
         self.unitId = C.STARTING_UNITS_COUNT
-
+        
 
     def init_units(self):
-        for i in range(C.STARTING_UNITS_COUNT):
-            # TODO: spawn units here
-            # TODO: how to get new coord for each unit?
-            unit = Unit(i, self.id, self.hqs[0].coord, None)
+        area = self.grids.cells_within_distance(self.hqs[0].coord, 1)
+        counter = 0
+        for cell in area:
+            if(cell == self.hqs[0].coord):
+                continue
+            # TODO: if starting units are more than 6, please fix this logic
+            unit = Unit(counter, self.id, [cell[0], cell[1]], None)
             self.units.append(unit)
-            # def __init__(self, unitId, playerId, coord, command):
+            counter += 1
+            if(counter == C.STARTING_UNITS_COUNT):
+                break
+        
 
     def init_hq(self, initialHQCoord):
         if(len(self.hqs) != 0):
@@ -40,12 +47,17 @@ class Player:
         # set each coord as visible
         self.restart_vision()
         for i in self.hqs:
-            self.playerMap[i.coord[0]][i.coord[1]] = C.VISIBLE
+            sight = self.grids.cells_within_distance(i.coord, 1)
+            for cell in sight:
+                self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for i in self.towers:
-            self.playerMap[i.coord[0]][i.coord[1]] = C.VISIBLE
+            sight = self.grids.cells_within_distance(i.coord, 1)
+            for cell in sight:
+                self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for i in self.units:
-            self.playerMap[i.coord[0]][i.coord[1]] = C.VISIBLE
-
+            sight = self.grids.cells_within_distance(i.coord, 1)
+            for cell in sight:
+                self.playerMap[cell[0]][cell[1]]= C.VISIBLE
     
     def issue_command(self, units, command):
         #TODO
