@@ -68,6 +68,7 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         """ On close connection """
         for client in CLIENTS:
             if client[0] == self:
+                GE.remove_player(client[1])
                 CLIENTS.remove(client)
         print("Client count: ", len(CLIENTS))
 
