@@ -52,10 +52,13 @@ class Player:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
     
     def issue_command(self, units, target):
-        for unit in units:
-            pass
+        for id in units:
+            self.units[id].target = target
 
     def update(self):
-        # TODO: update logic
-        for unit in self.units:
+        for key, unit in self.units.items():
+            if(unit.target == None):
+                continue
+            direction = self.grids.getDirection(unit.coord, unit.target)
+            self.units[key].coord = self.grids.move(unit.coord, direction)
             unit.update()
