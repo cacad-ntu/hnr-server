@@ -69,6 +69,7 @@ class Player:
         for id in units:
             self.units[id].target = target
             self.units[id].path = self.grids.bfs(self.units[id].coord, target, self.id, arena)
+            self.units[id].pathIndex = 0
             
     
     def kill_unit(self, unitId):
