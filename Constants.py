@@ -3,6 +3,7 @@ class Constants:
     ROW = 50
     COL = 50
     INITIAL_MINIMUM_EMPTY_RADIUS = 6
+    MARGIN = 3
     
     # objects
     NEUTRAL_UNIT = -1
