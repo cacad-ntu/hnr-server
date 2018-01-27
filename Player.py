@@ -64,7 +64,7 @@ class Player:
             if(unit.target == None):
                 continue
             haveToMove = True
-            objectType = arena[unit.target[0]][unit.target[1]]
+            objectType = arena[unit.target[0]][unit.target[1]][0]
             if(self.grids.isNeighbour(unit.coord, unit.target) and \
             (objectType == C.HQ or objectType == C.TOWER)):
                 haveToMove = False
