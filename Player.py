@@ -42,17 +42,14 @@ class Player:
         self.restart_vision()
         for i in self.hqs:
             sight = self.grids.cells_within_distance(i.coord, C.HQ_SIGHT_RADIUS)
-            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for i in self.towers:
             sight = self.grids.cells_within_distance(i.coord, C.TOWER_SIGHT_RADIUS)
-            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for key, i in self.units.items():
             sight = self.grids.cells_within_distance(i.coord, C.UNIT_SIGHT_RADIUS)
-            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
 
