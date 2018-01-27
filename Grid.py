@@ -1,5 +1,6 @@
 from __future__ import division
 from Constants import Constants as C
+from queue import Queue
 	
 class Grid:
 	arr = []	
@@ -75,6 +76,52 @@ class Grid:
 				return it
 		
 		return -1
+
+
+	def bfs(self, source, target, playerId, arena):
+		source = tuple(source)
+		target = tuple(target)
+		if source == target: return []
+		
+		q = Queue()
+		q.put(source)
+		visited = set()
+		visited.add(source)
+
+		par = {}
+
+		found = False
+
+		while not q.empty():
+			u = q.get()
+
+			if u == target: 
+				found = True
+				break
+
+			directions = self.getDirections(u,target)
+
+			for it in directions:
+				nx = self.move(u,it)
+
+				if 0 <= nx[0] < self.cols and 0 <= nx[1] < self.rows and self.is_free(nx,playerId,arena) and nx not in visited:
+					visited.add(nx)
+					q.put(nx)
+					par[nx] = u
+
+		if not found:
+			return []
+		
+		ret = [target]
+
+		cur = target
+
+		while cur != source:
+			cur = par[cur]
+			ret.append(cur)
+
+		return ret[::-1]
+
 
 	def is_free(self, coord, playerId, arena):
 		objectType = arena[coord[0]][coord[1]][0]
@@ -163,11 +210,10 @@ class Grid:
 					if dy <= 0: return [1,2,0,3,5,4]
 					else: return [2,1,3,0,4,5]
 
-"""	
+"""
 g = Grid(10,10)
 cell = tuple([1,2])
 cell2 = tuple([7,2])
 
-
-print(g.getDirections(cell,cell2))
+print(e.dfs(cell,cell2,))
 """
