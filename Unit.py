@@ -9,5 +9,5 @@ class Unit:
         self.prevPos = None
     
     def update(self):
-        if(self.target[0] == self.coord[0] and self.target[1] == self.coord[1]):
+        if(self.target != None and self.target[0] == self.coord[0] and self.target[1] == self.coord[1]):
             self.target = None
