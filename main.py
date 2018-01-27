@@ -101,6 +101,10 @@ def update_client():
 
         payload["map"] = GE.arena
         payload["player_map"] = GE.players[pid].playerMap
+        payload["towers"] =  GE.get_all_towers()
+        payload["hqs"] = GE.get_all_hqs()
+        payload["tower_max_hp"] = Constants.TOWER_HP
+        payload["hq_max_hp"] = Constants.HQ_HP
 
         msg["type"] = MSG_UPDATE
         msg["payload"] = payload

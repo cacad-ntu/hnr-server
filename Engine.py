@@ -18,11 +18,25 @@ class Engine:
         self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
         self.newUnitCounter = C.NEW_UNIT_TICKS
-        
+
         # building arena
         self.spawn_tower()
         self.update_map()
-        
+
+
+    def get_all_towers(self):
+        """ get all towers in form of dictionary """
+        json_towers = []
+        for tower in self.towers.values():
+            json_towers.append(tower.to_json())
+        return json_towers
+
+    def get_all_hqs(self):
+        """ get all hqs in form of dictionary """
+        json_hqs = []
+        for hq in self.towers.values():
+            json_hqs.append(hq.to_json())
+        return json_hqs
 
     def get_next_empty_coord(self,max_dist):
         for i in range(50):
@@ -69,7 +83,7 @@ class Engine:
     def remove_player(self, id):
         self.players[id].isDead = True
         self.cleanup_player(id)
-    
+
     def cleanup_player(self, id):
         for hq in self.players[id].hqs:
             self.hqs[hq.id] = None
@@ -134,7 +148,7 @@ class Engine:
             if(player.isDead):
                 continue
                 player.update_vision()
-    
+
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
         for playerKey, player in self.players.items():
@@ -147,7 +161,7 @@ class Engine:
                 currentObject = self.arena[unit.coord[0]][unit.coord[1]][0]
                 currentOwner = self.arena[unit.coord[0]][unit.coord[1]][1]
                 currentId = self.arena[unit.coord[0]][unit.coord[1]][2]
-                
+
                 if(currentObject == 0):
                     self.arena[unit.coord[0]][unit.coord[1]] = [C.UNIT, playerKey, unit.id]
                 elif(currentObject == C.UNIT):
@@ -162,7 +176,7 @@ class Engine:
                 else:
                     # HQ
                     pass
-                
+
             for tower in player.towers:
                 self.arena[tower.coord[0]][tower.coord[1]] = [C.TOWER, playerKey, tower.id]
             for hq in player.hqs:
@@ -213,7 +227,7 @@ class Engine:
                                 self.players[owner].isDead = True
                                 self.cleanup_player(owner)
 
-        
+
         for towerKey, tower in self.towers.items():
             if(not self.towers[towerKey].isAttacked):
                 if(self.towers[towerKey].hp < C.TOWER_HP):
