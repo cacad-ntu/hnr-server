@@ -6,9 +6,9 @@ from Constants import Constants as C
 class Player:
     def __init__(self, id, units, towers, hq, population, capacity, playerMap, initialHQCoord, grids):
         self.id = id
-        self.units = units
+        self.units = units # dictionary
         self.towers = towers # in most cases should be empty first
-        self.hqs = hq
+        self.hqs = hq # list of hq objects
         self.population = population
         self.capacity = capacity
         self.playerMap = playerMap
@@ -41,15 +41,18 @@ class Player:
         # set each coord as visible
         self.restart_vision()
         for i in self.hqs:
-            sight = self.grids.cells_within_distance(i.coord, 1)
+            sight = self.grids.cells_within_distance(i.coord, C.HQ_SIGHT_RADIUS)
+            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for i in self.towers:
-            sight = self.grids.cells_within_distance(i.coord, 1)
+            sight = self.grids.cells_within_distance(i.coord, C.TOWER_SIGHT_RADIUS)
+            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
         for key, i in self.units.items():
-            sight = self.grids.cells_within_distance(i.coord, 1)
+            sight = self.grids.cells_within_distance(i.coord, C.UNIT_SIGHT_RADIUS)
+            print(sight)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
 
