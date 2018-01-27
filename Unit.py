@@ -8,5 +8,5 @@ class Unit:
         self.isDead = False
     
     def update(self):
-        #TODO: update logic
-        pass
+        if(self.target[0] == self.coord[0] and self.target[1] == self.coord[1]):
+            self.target = None

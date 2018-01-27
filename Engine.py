@@ -14,7 +14,7 @@ class Engine:
         self.grids = Grid(C.COL, C.ROW)
         self.arena = None # get arena with size (row, col) TODO: Eric
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
-        self.HQCoords = [(3, 2), (20, 40), (7, 25), (35, 12), (42, 35)]
+        self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
         
         # building arena
@@ -65,9 +65,16 @@ class Engine:
         for key, value in self.players.items():
             value.update()
         self.update_map()
+        self.update_vision()
 
     def issue_command(self, playerId, units, target):
         self.players[playerId].issue_command(units, target)
+
+    def update_vision(self):
+        for playerKey, player in self.players.items():
+            if(player.isDead):
+                continue
+                player.update_vision()
     
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
