@@ -63,8 +63,15 @@ class Grid:
 		return ret
 	
 	def get_move(self, source, target, playerId, arena):
-		# TODO
-		pass
+		if source == target: return -1
+		directions = self.getDirections(source,target)
+		
+		for it in directions:
+			nx = self.move(source,it)
+			if 0 <= nx[0] < self.cols and 0 <= nx[1] < self.rows and self.is_free(nx,playerId,arena):
+				return it
+		
+		return -1
 
 	def is_free(self, coord, playerId, arena):
 		objectType = arena[coord[0]][coord[1]][0]
@@ -76,7 +83,7 @@ class Grid:
 		return False
 
 
-	def getDirection(self,hex1,hex2):
+	def getDirections(self,hex1,hex2):
 		if hex1 == hex2: return -1
 		cube1 = self.offset_to_cube(hex1)
 		cube2 = self.offset_to_cube(hex2)
@@ -94,73 +101,67 @@ class Grid:
 			if temp[1][1] == 1:
 				#(x,y)
 				if dx > 0:
-					if dy >= 0: return 1
-					else: return 0
+					if dy >= 0: return [1,0,2,5,3,4]
+					else: return [0,1,5,2,4,3]
 				else:
-					if dy <= 0: return 4
-					else: return 3
+					if dy <= 0: return [4,3,5,2,0,1]
+					else: return [3,4,2,5,1,0]
 			else:
 				#(x,z)
 				
 				if dx > 0:
-					if dz >= 0: return 0
-					else: return 1
+					if dz >= 0: return [0,1,5,2,4,3]
+					else: return [1,0,2,5,3,4]
 				elif dx < 0:
-					if dz <= 0: return 3
-					else: return 4
+					if dz <= 0: return [3,4,2,5,1,0]
+					else: return [4,3,5,2,0,1]
 				
 		elif temp[0][1] == 1:
 			if temp[1][1] == 2:
 				#(y,x)
 				
 				if dy > 0:
-					if dx >= 0: return 2
-					else: return 3
+					if dx >= 0: return [2,3,1,4,0,5]
+					else: return [3,2,4,1,5,0]
 				else:
-					if dx <= 0: return 5
-					else: return 0
+					if dx <= 0: return [5,0,4,1,3,2]
+					else: return [0,5,1,4,2,3]
 				
 			else:
 				#(y,z)
 				
 				if dy > 0:
-					if dz >= 0: return 3
-					else: return 2
+					if dz >= 0: return [3,2,4,1,5,0]
+					else: return [2,3,1,4,0,5]
 				else:
-					if dz <= 0: return 0
-					else: return 5
+					if dz <= 0: return [0,5,1,4,2,3]
+					else: return [5,0,4,1,3,2]
 				
 		else:	
 			if temp[1][1] == 2:
 				#(z,x)
 				
 				if dz > 0:
-					if dx >= 0: return 5
-					else: return 4
+					if dx >= 0: return [5,4,0,3,1,2]
+					else: return [4,5,3,0,2,1]
 				else:
-					if dx <= 0: return 2
-					else: return 1
+					if dx <= 0: return [2,1,3,0,4,5]
+					else: return [1,2,0,3,5,4]
 			else:
 				#(z,y)
 				
 				if dz > 0:
-					if dy >= 0: return 4
-					else: return 5
+					if dy >= 0: return [4,5,3,0,2,1]
+					else: return [5,4,0,3,1,2]
 				else:
-					if dy <= 0: return 1
-					else: return 2
-"""				
+					if dy <= 0: return [1,2,0,3,5,4]
+					else: return [2,1,3,0,4,5]
+
+"""	
 g = Grid(10,10)
 cell = tuple([1,2])
-cell2 = tuple([1,0])
+cell2 = tuple([7,2])
 
-arr = g.cells_within_distance(cell,2)
 
-for it in arr:
-	#print(g.offset_distance(cell,it))
-	print(it,g.offset_distance(cell,it))
-	
-print(g.oddq_offset_neighbor(cell,0))
-
-print(g.getDirection(cell,cell2))
+print(g.getDirections(cell,cell2))
 """
