@@ -4,6 +4,7 @@ from HQ import HQ
 from Tower import Tower
 from Constants import Constants as C
 from Grid import Grid
+from random import randint
 
 class Engine:
     def __init__(self):
@@ -12,7 +13,7 @@ class Engine:
         self.towers = {}
         self.hqs = {}
         self.grids = Grid(C.COL, C.ROW)
-        self.arena = None
+        self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
         self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
@@ -21,14 +22,31 @@ class Engine:
         # building arena
         self.spawn_tower()
         self.update_map()
+        
+
+    def get_next_empty_coord(self,max_dist):
+        for i in range(50):
+            col = randint(0,C.COL-1)
+            row = randint(0,C.ROW-1)
+
+            cells = self.grids.cells_within_distance(tuple([col,row]),max_dist)
+
+            isEmpty = True
+
+            for it in cells:
+
+                if self.arena[it[0]][it[1]][0] != C.EMPTY_CELL:
+                    isEmpty = False
+
+            if isEmpty: return tuple([col,row])
+
+        return self.get_next_empty_coord(max_dist-1)
 
     def get_next_tower_coord(self):
-        # TODO: proper implementation please
-        return self.TowerCoords[len(self.towers)]
+        return self.get_next_empty_coord(C.INITIAL_MINIMUM_EMPTY_RADIUS)
 
     def get_next_hq_coord(self):
-        # TODO: proper implementation please
-        return self.HQCoords[len(self.hqs)]
+        return self.get_next_empty_coord(C.INITIAL_MINIMUM_EMPTY_RADIUS)
 
     def spawn_tower(self):
         # TODO: spawn neutral units
@@ -211,5 +229,3 @@ class Engine:
                     self.hqs[hqKey].hp += 1
             else:
                 self.hqs[hqKey].hp -= 1
-
-

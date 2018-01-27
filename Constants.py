@@ -2,7 +2,7 @@ class Constants:
     # arena size
     ROW = 50
     COL = 50
-
+    INITIAL_MINIMUM_EMPTY_RADIUS = 6
     
     # objects
     NEUTRAL_UNIT = -1
