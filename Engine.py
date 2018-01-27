@@ -151,7 +151,7 @@ class Engine:
         self.update_vision()
 
     def issue_command(self, playerId, units, target):
-        self.players[playerId].issue_command(units, target)
+        self.players[playerId].issue_command(units, target, self.arena)
 
     def spawn_new_units(self):
         for playerKey, player in self.players.items():
@@ -219,7 +219,7 @@ class Engine:
                     objectType = self.arena[unit.target[0]][unit.target[1]][0]
                     owner = self.arena[unit.target[0]][unit.target[1]][1]
                     objectId = self.arena[unit.target[0]][unit.target[1]][2]
-                    if(objectType == C.TOWER):
+                    if(objectType == C.TOWER and owner != playerKey):
                         self.towers[objectId].isAttacked = True
                         self.towers[objectId].attacker = playerKey
                         # change ownership
@@ -234,7 +234,7 @@ class Engine:
                             self.players[playerKey].towers.append(self.towers[objectId])
                             self.towers[objectId].hp = C.TOWER_HP
 
-                    if(objectType == C.HQ):
+                    if(objectType == C.HQ and owner != playerKey):
                         self.hqs[objectId].isAttacked = True
                         self.hqs[objectId].attacker = playerKey
                         # change ownership

@@ -65,9 +65,11 @@ class Player:
     def update_points(self):
         self.points += len(self.hqs) * C.HQ_POINTS + len(self.towers) * C.TOWER_POINTS
     
-    def issue_command(self, units, target):
+    def issue_command(self, units, target, arena):
         for id in units:
             self.units[id].target = target
+            self.units[id].path = self.grids.bfs(self.units[id].coord, target, self.id, arena)
+            
     
     def kill_unit(self, unitId):
         self.units[unitId].isDead = True
