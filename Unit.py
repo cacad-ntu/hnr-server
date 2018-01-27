@@ -6,6 +6,7 @@ class Unit:
         self.target = target
         self.pollCounter = 0
         self.isDead = False
+        self.prevPos = None
     
     def update(self):
         if(self.target[0] == self.coord[0] and self.target[1] == self.coord[1]):
