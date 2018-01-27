@@ -18,6 +18,7 @@ class Engine:
         self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
         self.newUnitCounter = C.NEW_UNIT_TICKS
+        self.pointCounter = C.POINT_TICKS
 
         # building arena
         self.spawn_tower()
@@ -129,10 +130,14 @@ class Engine:
             value.update(self.arena)
         self.update_map()
         self.newUnitCounter -= 1
+        self.pointCounter -= 1
         if(self.newUnitCounter == 0):
             self.spawn_new_units()
             self.newUnitCounter = C.NEW_UNIT_TICKS
-        self.update_vision()
+        if(self.pointCounter == 0):
+            self.update_points()
+            self.pointCounter = C.POINT_TICKS
+        self.update_vision()    
 
     def issue_command(self, playerId, units, target):
         self.players[playerId].issue_command(units, target)
@@ -243,3 +248,9 @@ class Engine:
                     self.hqs[hqKey].hp += 1
             else:
                 self.hqs[hqKey].hp -= 1
+
+    def update_points(self):
+        for playerKey, player in self.players.items():
+            if(player.isDead):
+                continue
+            player.update_points()

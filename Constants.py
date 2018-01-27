@@ -31,7 +31,7 @@ class Constants:
     TOWER_POINTS = 10
     STARTING_UNITS_COUNT = 6
     HQ_POINTS = 15
-    POINT_CLOCK = 10 # in seconds
+    POINT_TICKS = 7
     
     HQ_POPULATION = 12
     TOWER_POPULATION = 6

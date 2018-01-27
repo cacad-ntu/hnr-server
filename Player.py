@@ -17,6 +17,7 @@ class Player:
         self.init_hq(initialHQCoord)
         self.update_vision()
         self.unitId = C.STARTING_UNITS_COUNT
+        self.points = 0
         
 
     def add_unit(self, coord):
@@ -51,6 +52,9 @@ class Player:
             sight = self.grids.cells_within_distance(i.coord, 1)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
+
+    def update_points(self):
+        self.points += len(self.hqs) * C.HQ_POINTS + len(self.towers) * C.TOWER_POINTS
     
     def issue_command(self, units, target):
         for id in units:
@@ -58,8 +62,13 @@ class Player:
     
     def kill_unit(self, unitId):
         self.units[unitId].isDead = True
+        self.population -= 1
+
+    def recalculate_capacity(self):
+        self.capacity = len(self.hqs) * C.HQ_POPULATION + len(self.towers) * C.TOWER_POPULATION
 
     def update(self, arena):
+        self.recalculate_capacity()
         for key, unit in self.units.items():
             if(unit.target == None):
                 continue
