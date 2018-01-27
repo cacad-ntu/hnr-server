@@ -91,30 +91,32 @@ class Player:
             (objectType == C.HQ or objectType == C.TOWER)):
                 haveToMove = False
             if(haveToMove):
-                direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
-                newCoord = self.grids.move(unit.coord, direction)
+                # direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
+                # newCoord = self.grids.move(unit.coord, direction)
 
-
+                newCoord = unit.coord
                 # bfs
                 unit = self.units[key]
-                if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
+                if(not(unit.path != None and len(unit.path) > unit.pathIndex)):
                     self.units[key].path = self.grids.bfs(unit.coord, unit.target, self.id, arena)
                     self.units[key].pathIndex = 0    
-                if(len(unit.path) > unit.pathIndex):
+                if(self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
                     newCoord = unit.path[unit.pathIndex]
                     self.units[key].pathIndex += 1
+                else:
+                    continue
                     
 
-                if(newCoord == self.units[key].prevPos):
-                    self.units[key].stuckedCounter += 1
-                else:
-                    self.units[key].stuckedCounter = 0
-                if(self.units[key].stuckedCounter == C.STUCKED_TOLERANCE):
-                    self.units[key].target = None
-                else:
-                    self.units[key].prevPos = self.units[key].coord
-                    self.units[key].coord = newCoord
-                    if(newCoord[0] < 0 or newCoord[0] >= C.COL or newCoord[1] < 0 or newCoord[1] >= C.ROW):
-                        continue
-                    arena[newCoord[0]][newCoord[1]] = [C.UNIT, self.id, key]
+                # if(newCoord == self.units[key].prevPos):
+                #     self.units[key].stuckedCounter += 1
+                # else:
+                #     self.units[key].stuckedCounter = 0
+                # if(self.units[key].stuckedCounter == C.STUCKED_TOLERANCE):
+                #     self.units[key].target = None
+                # else:
+                self.units[key].prevPos = self.units[key].coord
+                self.units[key].coord = newCoord
+                if(newCoord[0] < 0 or newCoord[0] >= C.COL or newCoord[1] < 0 or newCoord[1] >= C.ROW):
+                    continue
+                arena[newCoord[0]][newCoord[1]] = [C.UNIT, self.id, key]
             unit.update()
