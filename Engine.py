@@ -44,8 +44,20 @@ class Engine:
         player = Player(newID, {}, [], [], C.INITIAL_POPULATION, C.HQ_POPULATION, None, self.get_next_hq_coord(), self.grids)
         self.players[newID] = player
         self.hqs[newID] = player.hqs[0]
+        for i in range(C.STARTING_UNITS_COUNT):
+            self.spawn_unit(newID)
         self.update_map()
         return player
+
+    def spawn_unit(self, playerId):
+        area = self.grids.cells_within_distance(self.players[playerId].hqs[0].coord, 1)
+        counter = 0
+        for cell in area:
+            if(cell == self.players[playerId].hqs[0].coord or self.arena[cell[0]][cell[1]][0] != 0):
+                continue
+            # TODO: if starting units are more than 6, please fix this logic
+            newId = self.players[playerId].add_unit(cell)
+            self.arena[cell[0]][cell[1]] = [C.UNIT, playerId, newId]
 
     def update(self):
         # movement: including units collapsing
