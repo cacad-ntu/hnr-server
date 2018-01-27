@@ -35,7 +35,7 @@ class Engine:
     def get_all_hqs(self):
         """ get all hqs in form of dictionary """
         json_hqs = []
-        for hq in self.towers.values():
+        for hq in self.hqs.values():
             json_hqs.append(hq.to_json())
         return json_hqs
 
@@ -137,7 +137,7 @@ class Engine:
         if(self.pointCounter == 0):
             self.update_points()
             self.pointCounter = C.POINT_TICKS
-        self.update_vision()    
+        self.update_vision()
 
     def issue_command(self, playerId, units, target):
         self.players[playerId].issue_command(units, target)
