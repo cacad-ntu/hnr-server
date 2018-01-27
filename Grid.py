@@ -120,7 +120,8 @@ class Grid:
 			cur = par[cur]
 			ret.append(cur)
 
-		return ret[::-1]
+		temp = ret[::-1]
+		return temp[1:]
 
 
 	def is_free(self, coord, playerId, arena):

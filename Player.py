@@ -114,7 +114,7 @@ class Player:
                 # if(self.units[key].stuckedCounter == C.STUCKED_TOLERANCE):
                 #     self.units[key].target = None
                 # else:
-                self.units[key].prevPos = self.units[key].coord
+                # self.units[key].prevPos = self.units[key].coord
                 self.units[key].coord = newCoord
                 if(newCoord[0] < 0 or newCoord[0] >= C.COL or newCoord[1] < 0 or newCoord[1] >= C.ROW):
                     continue
