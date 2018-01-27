@@ -22,7 +22,6 @@ class Player:
         for i in range(C.STARTING_UNITS_COUNT):
             # TODO: spawn units here
             # TODO: how to get new coord for each unit?
-            print(self.hqs[0].coord)
             unit = Unit(i, self.id, self.hqs[0].coord, None)
             self.units.append(unit)
             # def __init__(self, unitId, playerId, coord, command):

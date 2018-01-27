@@ -6,7 +6,7 @@ class Constants:
     
     # objects
     NEUTRAL_UNIT = -1
-    EMPTY = [0, NEUTRAL_UNIT]
+    EMPTY = [0, NEUTRAL_UNIT, NEUTRAL_UNIT]
     HQ = 1
     TOWER = 2
     UNIT = 3
