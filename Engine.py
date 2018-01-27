@@ -107,7 +107,14 @@ class Engine:
                     if i in area:
                         area.remove(i)
             for cell in area:
-                if(cell == self.players[playerId].hqs[0].coord or self.arena[cell[0]][cell[1]][0] != 0):
+                objectType = self.arena[cell[0]][cell[1]][0]
+                owner = self.arena[cell[0]][cell[1]][1]
+                objectId = self.arena[cell[0]][cell[1]][2]
+                if(objectType == C.UNIT and owner != playerId):
+                    # kill enemy unit
+                    self.players[owner].kill_unit(objectId)
+                    continue
+                if(cell == self.players[playerId].hqs[0].coord or objectType != C.EMPTY_CELL):
                     continue
                 newId = self.players[playerId].add_unit(cell)
                 self.arena[cell[0]][cell[1]] = [C.UNIT, playerId, newId]
