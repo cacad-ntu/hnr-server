@@ -53,6 +53,15 @@ class Player:
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
 
+    def remove_tower(self, towerId):
+        removeIndex = 0
+        for i in range(len(self.towers)):
+            if(self.towers[i].id == towerId):
+                removeIndex = i
+                break
+        print("To be removed", removeIndex, " len ", len(self.towers))
+        self.towers.pop(removeIndex)
+        print("New len ", len(self.towers))
     def update_points(self):
         self.points += len(self.hqs) * C.HQ_POINTS + len(self.towers) * C.TOWER_POINTS
     
@@ -68,6 +77,7 @@ class Player:
         self.capacity = len(self.hqs) * C.HQ_POPULATION + len(self.towers) * C.TOWER_POPULATION
 
     def update(self, arena):
+        #TODO: Boundary Check
         self.recalculate_capacity()
         for key, unit in self.units.items():
             if(unit.target == None):
@@ -90,4 +100,9 @@ class Player:
                     self.units[key].prevPos = self.units[key].coord
                     self.units[key].coord = newCoord
                     arena[newCoord[0]][newCoord[1]] = [C.UNIT, self.id, key]
+                # unit = self.units[key]
+                # if(len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
+                #     self.units[key].coord = unit.path[unit.pathIndex]
+                #     self.units[key].pathIndex += 1
+                # self.grids.bfs(source, target, playerId, arena)
             unit.update()

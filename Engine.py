@@ -223,9 +223,13 @@ class Engine:
                         self.towers[objectId].isAttacked = True
                         self.towers[objectId].attacker = playerKey
                         # change ownership
+                        
                         if(self.towers[objectId].hp == 0):
+                            print("REMOVE THIS")
                             if(owner != C.NEUTRAL_UNIT and self.towers[objectId] in self.players[owner].towers):
-                                self.players[owner].towers.remove(self.towers[objectId])
+                                print("INSIDE HERE HELL YEAH, owner id: ", owner, objectId)
+                                # self.players[owner].towers.remove(self.towers[objectId])
+                                self.players[owner].remove_tower(objectId)
                             self.towers[objectId].playerId = playerKey
                             self.players[playerKey].towers.append(self.towers[objectId])
 
