@@ -81,6 +81,10 @@ class Player:
                 direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
                 newCoord = self.grids.move(unit.coord, direction)
                 if(newCoord == self.units[key].prevPos):
+                    self.units[key].stuckedCounter += 1
+                else:
+                    self.units[key].stuckedCounter = 0
+                if(self.units[key].stuckedCounter == C.STUCKED_TOLERANCE):
                     self.units[key].target = None
                 else:
                     self.units[key].prevPos = self.units[key].coord
