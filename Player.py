@@ -63,7 +63,6 @@ class Player:
         for key, unit in self.units.items():
             if(unit.target == None):
                 continue
-            direction = self.grids.getDirection(unit.coord, unit.target)
+            direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
             self.units[key].coord = self.grids.move(unit.coord, direction)
-            self.grids.get_move(unit.coord, unit.target, self.id, arena)
             unit.update()

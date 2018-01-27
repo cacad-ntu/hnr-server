@@ -76,8 +76,11 @@ class Grid:
 	def is_free(self, coord, playerId, arena):
 		objectType = arena[coord[0]][coord[1]][0]
 		owner = arena[coord[0]][coord[1]][1]
-		if(objectType == C.UNIT and owner == playerId):
-			return False
+		if(objectType == C.UNIT):
+			if(owner == playerId):
+				return False
+			else:
+				return True
 		if(objectType == 0):
 			return True
 		return False
