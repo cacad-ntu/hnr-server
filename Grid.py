@@ -35,6 +35,9 @@ class Grid:
 		dir = self.oddq_directions[parity][direction]
 		return tuple([hex[0] + dir[0], hex[1] + dir[1]])
 	
+	def isNeighbour(self,one,two):
+		return self.offset_distance(one,two) == 1
+
 	def cube_distance(self,a, b):
 		return max(abs(a[0] - b[0]), abs(a[1] - b[1]), abs(a[2] - b[2]))	
 	
