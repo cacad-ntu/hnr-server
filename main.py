@@ -91,6 +91,8 @@ def update_client():
     for player, pid in CLIENTS:
         msg = {}
         payload = {}
+        payload["player_id"] = pid
+        payload["points"] = GE.players[pid].points
 
         if GE.players[pid].isDead:
             msg["type"] = MSG_DEAD
@@ -100,9 +102,10 @@ def update_client():
             player.on_close()
             continue
 
+        payload["players"] = GE.get_sorted_players()
         payload["map"] = GE.arena
         payload["player_map"] = GE.players[pid].playerMap
-        payload["towers"] =  GE.get_all_towers()
+        payload["towers"] = GE.get_all_towers()
         payload["hqs"] = GE.get_all_hqs()
         payload["tower_max_hp"] = Constants.TOWER_HP
         payload["hq_max_hp"] = Constants.HQ_HP

@@ -67,6 +67,10 @@ class Engine:
     def get_next_hq_coord(self):
         return self.get_next_empty_coord(C.INITIAL_MINIMUM_EMPTY_RADIUS)
 
+    def get_sorted_players(self):
+        """ get player tops player """
+        return sorted(self.players.values(), key=lambda x: x.points, reverse=True)
+
     def spawn_tower(self):
         # TODO: spawn neutral units
         for i in range(C.TOWERS_COUNT):
@@ -223,7 +227,7 @@ class Engine:
                         self.towers[objectId].isAttacked = True
                         self.towers[objectId].attacker = playerKey
                         # change ownership
-                        
+
                         if(self.towers[objectId].hp == 0):
                             print("REMOVE THIS")
                             if(owner != C.NEUTRAL_UNIT and self.towers[objectId] in self.players[owner].towers):
