@@ -247,7 +247,7 @@ class Engine:
             else:
                 self.towers[towerKey].hp -= 1
 
-        for hqKey, tower in self.hqs.items():
+        for hqKey, hq in self.hqs.items():
             if(hq == None):
                 continue
             if(not self.hqs[hqKey].isAttacked):
