@@ -29,7 +29,7 @@ class Grid:
 		 tuple([-1,  0]), tuple([-1, +1]), tuple([ 0, +1]) ]
 	]
 
-	def oddq_offset_neighbor(self,hex, direction):
+	def move(self,hex, direction):
 		parity = hex[0] & 1
 		dir = self.oddq_directions[parity][direction]
 		return tuple([hex[0] + dir[0], hex[1] + dir[1]])
