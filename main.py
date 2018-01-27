@@ -87,6 +87,7 @@ def make_app():
 def update_client():
     """ Update every clients """
     GE.update()
+    sorted_players = GE.get_sorted_players()
 
     for player, pid in CLIENTS:
         msg = {}
@@ -102,7 +103,7 @@ def update_client():
             player.on_close()
             continue
 
-        payload["players"] = GE.get_sorted_players()
+        payload["players"] = sorted_players
         payload["map"] = GE.arena
         payload["player_map"] = GE.players[pid].playerMap
         payload["towers"] = GE.get_all_towers()
