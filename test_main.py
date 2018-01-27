@@ -5,4 +5,6 @@ player = en.spawn_player()
 print(en.towers)
 print(en.players)
 print(en.hqs)
-#print(player.playerMap)
+
+# to get player map:
+# en.players[1].playerMap

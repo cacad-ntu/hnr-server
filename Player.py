@@ -22,6 +22,7 @@ class Player:
         for i in range(C.STARTING_UNITS_COUNT):
             # TODO: spawn units here
             # TODO: how to get new coord for each unit?
+            print(self.hqs[0].coord)
             unit = Unit(i, self.id, self.hqs[0].coord, None)
             self.units.append(unit)
             # def __init__(self, unitId, playerId, coord, command):
@@ -44,7 +45,7 @@ class Player:
         for i in self.towers:
             self.playerMap[i.coord[0]][i.coord[1]] = C.VISIBLE
         for i in self.units:
-            self.playerMap[0][1] = C.VISIBLE
+            self.playerMap[i.coord[0]][i.coord[1]] = C.VISIBLE
 
     
     def issue_command(self, units, command):
