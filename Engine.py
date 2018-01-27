@@ -40,8 +40,8 @@ class Engine:
 
     def get_next_empty_coord(self,max_dist):
         for i in range(50):
-            col = randint(1,C.COL-2)
-            row = randint(1,C.ROW-2)
+            col = randint(0+C.MARGIN,C.COL-1-C.MARGIN)
+            row = randint(0+C.MARGIN,C.ROW-1-C.MARGIN)
 
             cells = self.grids.cells_within_distance(tuple([col,row]),max_dist)
 
