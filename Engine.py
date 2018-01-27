@@ -13,7 +13,6 @@ class Engine:
         self.hqs = {}
         self.grids = Grid(C.COL, C.ROW)
         self.arena = None # get arena with size (row, col) TODO: Eric
-        self.isDead = False
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
         self.HQCoords = [(3, 2), (20, 40), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
@@ -72,13 +71,36 @@ class Engine:
     
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
-        for key, value in self.players.items():
-            for key, unit in value.units.items():
-                self.arena[unit.coord[0]][unit.coord[1]] = [C.UNIT, key, unit.id]
-            for tower in value.towers:
-                self.arena[tower.coord[0]][tower.coord[1]] = [C.TOWER, key, tower.id]
-            for hq in value.hqs:
-                self.arena[hq.coord[0]][hq.coord[1]] = [C.HQ, key, hq.id]
+        for playerKey, player in self.players.items():
+            if(player.isDead):
+                continue
+            for unitKey, unit in player.units.items():
+                if(unit.isDead):
+                    continue
+                # check for clash
+                currentObject = self.arena[unit.coord[0]][unit.coord[1]][0]
+                currentOwner = self.arena[unit.coord[0]][unit.coord[1]][1]
+                currentId = self.arena[unit.coord[0]][unit.coord[1]][2]
+                
+                if(currentObject == 0):
+                    self.arena[unit.coord[0]][unit.coord[1]] = [C.UNIT, playerKey, unit.id]
+                elif(currentObject == C.UNIT):
+                    if(currentOwner != playerKey):
+                        # kill both units
+                        player.kill_unit(unit.id)
+                        self.players[currentOwner].kill_unit(currentId)
+                    else: # need to check here?
+                        pass
+                elif(currentObject == C.TOWER):
+                    pass
+                else:
+                    # HQ
+                    pass
+                
+            for tower in player.towers:
+                self.arena[tower.coord[0]][tower.coord[1]] = [C.TOWER, playerKey, tower.id]
+            for hq in player.hqs:
+                self.arena[hq.coord[0]][hq.coord[1]] = [C.HQ, playerKey, hq.id]
 
         for key, value in self.towers.items():
             self.arena[value.coord[0]][value.coord[1]] = [C.TOWER, C.NEUTRAL_UNIT, value.id]

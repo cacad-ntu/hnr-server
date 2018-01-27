@@ -5,6 +5,7 @@ class Unit:
         self.coord = [coord[0], coord[1]]
         self.target = target
         self.pollCounter = 0
+        self.isDead = False
     
     def update(self):
         #TODO: update logic
