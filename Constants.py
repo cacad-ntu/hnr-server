@@ -39,3 +39,5 @@ class Constants:
 
     VISIBLE = True
     NOT_VISIBLE = False
+
+    NEW_UNIT_TICKS = 7

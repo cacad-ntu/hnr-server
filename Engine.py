@@ -16,6 +16,7 @@ class Engine:
         self.currentID = 1 # TODO: Any better approach to keep track of next player ID?
         self.HQCoords = [(1, 1), (6, 1), (7, 25), (35, 12), (42, 35)]
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
+        self.newUnitCounter = C.NEW_UNIT_TICKS
         
         # building arena
         self.spawn_tower()
@@ -79,7 +80,10 @@ class Engine:
         for key, value in self.players.items():
             value.update(self.arena)
         self.update_map()
-        self.spawn_new_units()
+        self.newUnitCounter -= 1
+        if(self.newUnitCounter == 0):
+            self.spawn_new_units()
+            self.newUnitCounter = C.NEW_UNIT_TICKS
         self.update_vision()
 
     def issue_command(self, playerId, units, target):
@@ -90,7 +94,7 @@ class Engine:
             if(player.isDead):
                 continue
             self.spawn_unit(playerKey)
-            
+
     def update_vision(self):
         for playerKey, player in self.players.items():
             if(player.isDead):
