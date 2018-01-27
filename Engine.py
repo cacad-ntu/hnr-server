@@ -173,6 +173,8 @@ class Engine:
 
     def update_map(self):
         self.arena = [[C.EMPTY for i in range(C.COL)] for j in range(C.ROW)]
+        for key, value in self.towers.items():
+            self.arena[value.coord[0]][value.coord[1]] = [C.TOWER, C.NEUTRAL_UNIT, value.id]
         for playerKey, player in self.players.items():
             if(player.isDead):
                 continue
@@ -204,9 +206,6 @@ class Engine:
             for hq in player.hqs:
                 self.arena[hq.coord[0]][hq.coord[1]] = [C.HQ, playerKey, hq.id]
 
-        for key, value in self.towers.items():
-            self.arena[value.coord[0]][value.coord[1]] = [C.TOWER, C.NEUTRAL_UNIT, value.id]
-
     def update_attack_progress(self):
         for towerKey, tower in self.towers.items():
             self.towers[towerKey].isAttacked = False
@@ -231,9 +230,7 @@ class Engine:
                         # change ownership
 
                         if(self.towers[objectId].hp == 0):
-                            print("REMOVE THIS")
                             if(owner != C.NEUTRAL_UNIT and self.towers[objectId] in self.players[owner].towers):
-                                print("INSIDE HERE HELL YEAH, owner id: ", owner, objectId)
                                 # self.players[owner].towers.remove(self.towers[objectId])
                                 self.players[owner].remove_tower(objectId)
                             self.towers[objectId].playerId = playerKey

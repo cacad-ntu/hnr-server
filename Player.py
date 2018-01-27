@@ -59,9 +59,7 @@ class Player:
             if(self.towers[i].id == towerId):
                 removeIndex = i
                 break
-        print("To be removed", removeIndex, " len ", len(self.towers))
         self.towers.pop(removeIndex)
-        print("New len ", len(self.towers))
     def update_points(self):
         self.points += len(self.hqs) * C.HQ_POINTS + len(self.towers) * C.TOWER_POINTS
     
