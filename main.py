@@ -30,7 +30,8 @@ class MainHandler(tornado.web.RequestHandler):
     Http handler
     """
     def get(self):
-        self.render("index.html")
+        self.write("Hello World")
+        #self.render("index.html")
 
 
 class SocketHandler(tornado.websocket.WebSocketHandler):
