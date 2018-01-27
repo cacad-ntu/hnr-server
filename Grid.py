@@ -29,7 +29,7 @@ class Grid:
 		 tuple([-1,  0]), tuple([-1, +1]), tuple([ 0, +1]) ]
 	]
 
-	def oddq_offset_neighbor(self,hex, direction):
+	def move(self,hex, direction):
 		parity = hex[0] & 1
 		dir = self.oddq_directions[parity][direction]
 		return tuple([hex[0] + dir[0], hex[1] + dir[1]])
@@ -62,19 +62,90 @@ class Grid:
 		return ret
 		
 	def getDirection(self,hex1,hex2):
-		x1 = hex1[0]
-		y1 = hex1[1]
-		x2 = hex2[0]
-		y2 = hex2[1]
-		 
-	
-# g = Grid(10,10)
-# cell = tuple([1,2])
+		if hex1 == hex2: return -1
+		cube1 = self.offset_to_cube(hex1)
+		cube2 = self.offset_to_cube(hex2)
+		temp = []
+		temp.append(tuple([abs(cube1[0]-cube2[0]),2]))
+		temp.append(tuple([abs(cube1[1]-cube2[1]),1]))
+		temp.append(tuple([abs(cube1[2]-cube2[2]),0]))
+		temp.sort(reverse = True)
+		
+		dx = cube2[0] - cube1[0]
+		dy = cube2[1] - cube1[1]
+		dz = cube2[2] - cube1[2]
+		
+		if temp[0][1] == 2:
+			if temp[1][1] == 1:
+				#(x,y)
+				if dx > 0:
+					if dy >= 0: return 1
+					else: return 0
+				else:
+					if dy <= 0: return 4
+					else: return 3
+			else:
+				#(x,z)
+				
+				if dx > 0:
+					if dz >= 0: return 0
+					else: return 1
+				elif dx < 0:
+					if dz <= 0: return 3
+					else: return 4
+				
+		elif temp[0][1] == 1:
+			if temp[1][1] == 2:
+				#(y,x)
+				
+				if dy > 0:
+					if dx >= 0: return 2
+					else: return 3
+				else:
+					if dx <= 0: return 5
+					else: return 0
+				
+			else:
+				#(y,z)
+				
+				if dy > 0:
+					if dz >= 0: return 3
+					else: return 2
+				else:
+					if dz <= 0: return 0
+					else: return 5
+				
+		else:	
+			if temp[1][1] == 2:
+				#(z,x)
+				
+				if dz > 0:
+					if dx >= 0: return 5
+					else: return 4
+				else:
+					if dx <= 0: return 2
+					else: return 1
+			else:
+				#(z,y)
+				
+				if dz > 0:
+					if dy >= 0: return 4
+					else: return 5
+				else:
+					if dy <= 0: return 1
+					else: return 2
+"""				
+g = Grid(10,10)
+cell = tuple([1,2])
+cell2 = tuple([1,0])
 
-# arr = g.cells_within_distance(cell,2)
+arr = g.cells_within_distance(cell,2)
 
-# for it in arr:
-# 	#print(g.offset_distance(cell,it))
-# 	print(it,g.offset_distance(cell,it))
+for it in arr:
+	#print(g.offset_distance(cell,it))
+	print(it,g.offset_distance(cell,it))
 	
-# print(g.oddq_offset_neighbor(cell,0))
+print(g.oddq_offset_neighbor(cell,0))
+
+print(g.getDirection(cell,cell2))
+"""

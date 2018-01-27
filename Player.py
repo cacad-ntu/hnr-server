@@ -27,7 +27,7 @@ class Player:
                 continue
             # TODO: if starting units are more than 6, please fix this logic
             unit = Unit(counter, self.id, [cell[0], cell[1]], None)
-            self.units.append(unit)
+            self.units[counter] = unit
             counter += 1
             if(counter == C.STARTING_UNITS_COUNT):
                 break
@@ -54,14 +54,14 @@ class Player:
             sight = self.grids.cells_within_distance(i.coord, 1)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
-        for i in self.units:
+        for key, i in self.units.items():
             sight = self.grids.cells_within_distance(i.coord, 1)
             for cell in sight:
                 self.playerMap[cell[0]][cell[1]]= C.VISIBLE
     
-    def issue_command(self, units, command):
-        #TODO
-        pass
+    def issue_command(self, units, target):
+        for unit in units:
+            pass
 
     def update(self):
         # TODO: update logic
