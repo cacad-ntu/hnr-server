@@ -52,3 +52,4 @@ class Constants:
     STUCKED_TOLERANCE = 2
 
     MAX_PLAYER = 5
+    CLEAN_UP_TICKS = 10
