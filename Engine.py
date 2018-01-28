@@ -140,10 +140,10 @@ class Engine:
 
     def cleanUpUnits(self):
         for playerKey, player in self.players.items():
-            print("Before ", len(players[playerKey].units))
-            for unitKey, unit in list(players[playerKey].units.items()):
-                players[playerKey].units.remove(unit)
-            print("After ", len(players[playerKey].units))
+            print("Before ", len(self.players[playerKey].units))
+            for unitKey, unit in list(self.players[playerKey].units.items()):
+                self.players[playerKey].units.remove(unit)
+            print("After ", len(self.players[playerKey].units))
 
     def update(self):
         # movement: including units collapsing
