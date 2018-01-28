@@ -19,7 +19,7 @@ class Engine:
         self.TowerCoords = [(20, 15), (7, 15), (28, 25), (28, 45), (37, 25)]
         self.newUnitCounter = C.NEW_UNIT_TICKS
         self.pointCounter = C.POINT_TICKS
-        self.cleanUpCounter = C.CLEAN_UP_TICKS
+        # self.cleanUpCounter = C.CLEAN_UP_TICKS
 
         # building arena
         self.spawn_tower()
@@ -140,21 +140,21 @@ class Engine:
 
     def cleanUpUnits(self):
         for playerKey, player in self.players.items():
-            print("Before ", len(self.players[playerKey].units))
             for unitKey, unit in list(self.players[playerKey].units.items()):
-                del(self.players[playerKey].units[unitKey])
-            print("After ", len(self.players[playerKey].units))
+                if(unit.isDead):
+                    del(self.players[playerKey].units[unitKey])
 
     def update(self):
         # movement: including units collapsing
         # map visibility: units, hqs, towers
         # attack notification
 
+        
+        # self.cleanUpCounter -= 1
+        # if(self.cleanUpCounter == 0):
+        #     self.cleanUpUnits()
+        #     self.cleanUpCounter = C.CLEAN_UP_TICKS
         # check for buildings being attacked
-        self.cleanUpCounter -= 1
-        if(self.cleanUpCounter == 0):
-            self.cleanUpUnits()
-            self.cleanUpCounter = C.CLEAN_UP_TICKS
         self.update_attack_progress()
 
         for key, value in self.players.items():
