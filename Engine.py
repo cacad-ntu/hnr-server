@@ -73,7 +73,12 @@ class Engine:
         """ get player tops player """
         sorted_players = sorted(self.players.values(), key=lambda x: x.points, reverse=True)
 
-        return [{"player_id": player.id, "points": player.points} for player in sorted_players]
+        list_sorted = []
+        for player in sorted_players:
+            if player.isDead:
+                continue
+            list_sorted.append({"player_id": player.id, "points": player.points})
+        return list_sorted
 
     def toggle_bfs(self, value):
         """ Toggle use_bfs flag """
