@@ -109,7 +109,7 @@ class Engine:
 
 
     def spawn_unit(self, playerId):
-        if(self.players[playerId].population == self.players[playerId].capacity):
+        if(self.players[playerId].population >= self.players[playerId].capacity):
             return
         currentRadius = 1
         flag = True
