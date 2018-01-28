@@ -142,7 +142,7 @@ class Engine:
         for playerKey, player in self.players.items():
             print("Before ", len(self.players[playerKey].units))
             for unitKey, unit in list(self.players[playerKey].units.items()):
-                self.players[playerKey].units.remove(unit)
+                del(self.players[playerKey].units[unitKey])
             print("After ", len(self.players[playerKey].units))
 
     def update(self):
@@ -152,7 +152,6 @@ class Engine:
 
         # check for buildings being attacked
         self.cleanUpCounter -= 1
-        print(self.cleanUpCounter)
         if(self.cleanUpCounter == 0):
             self.cleanUpUnits()
             self.cleanUpCounter = C.CLEAN_UP_TICKS
