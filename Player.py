@@ -79,7 +79,7 @@ class Player:
     def recalculate_capacity(self):
         self.capacity = len(self.hqs) * C.HQ_POPULATION + len(self.towers) * C.TOWER_POPULATION
 
-    def update(self, arena, use_bfs=False):
+    def update(self, arena):
         #TODO: Boundary Check
         self.recalculate_capacity()
         for key, unit in self.units.items():
@@ -94,30 +94,16 @@ class Player:
                 direction = self.grids.get_move(unit.coord, unit.target, self.id, arena)
                 newCoord = self.grids.move(unit.coord, direction)
 
-
                 # dfs
                 unit = self.units[key]
                 # if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
                 if(unit.path != None and len(unit.path) > 0 and not self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
                     self.units[key].path = self.grids.dfs(unit.coord, unit.target, self.id, arena)
-                    self.units[key].pathIndex = 0    
+                    self.units[key].pathIndex = 0
                 if(len(unit.path) > unit.pathIndex):
                     newCoord = unit.path[unit.pathIndex]
                     self.units[key].pathIndex += 1
-                    
-                """=======
-                # bfs
-                if use_bfs:
-                    unit = self.units[key]
-                    if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
-                        self.units[key].path = self.grids.bfs(unit.coord, unit.target, self.id, arena)
-                        self.units[key].pathIndex = 0
-                    if(len(unit.path) > unit.pathIndex):
-                        newCoord = unit.path[unit.pathIndex]
-                        self.units[key].pathIndex += 1
 
-                >>>>>>> 7d1e03de6d5d3586dd0e5922b66fd3d71a8b6297
-                """
                 if(newCoord == self.units[key].prevPos):
                     self.units[key].stuckedCounter += 1
                 else:

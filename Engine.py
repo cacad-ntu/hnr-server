@@ -20,9 +20,6 @@ class Engine:
         self.newUnitCounter = C.NEW_UNIT_TICKS
         self.pointCounter = C.POINT_TICKS
 
-        # Flags
-        self.use_bfs = False
-
         # building arena
         self.spawn_tower()
         self.update_map()
@@ -73,11 +70,12 @@ class Engine:
         """ get player tops player """
         sorted_players = sorted(self.players.values(), key=lambda x: x.points, reverse=True)
 
-        return [{"player_id": player.id, "points": player.points} for player in sorted_players]
-
-    def toggle_bfs(self, value):
-        """ Toggle use_bfs flag """
-        self.use_bfs = value
+        list_sorted = []
+        for player in sorted_players:
+            if player.isDead:
+                continue
+            list_sorted.append({"player_id": player.id, "points": player.points})
+        return list_sorted
 
     def spawn_tower(self):
         # TODO: spawn neutral units
@@ -150,7 +148,7 @@ class Engine:
         for key, value in self.players.items():
             if(value.isDead):
                 continue
-            value.update(self.arena, self.use_bfs)
+            value.update(self.arena)
         self.update_map()
         self.newUnitCounter -= 1
         self.pointCounter -= 1
