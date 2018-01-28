@@ -97,7 +97,8 @@ class Player:
 
                 # dfs
                 unit = self.units[key]
-                if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
+                # if(not(unit.path != None and len(unit.path) > unit.pathIndex and self.grids.is_free(unit.path[unit.pathIndex], self.id, arena))):
+                if(unit.path != None and len(unit.path) > 0 and not self.grids.is_free(unit.path[unit.pathIndex], self.id, arena)):
                     self.units[key].path = self.grids.dfs(unit.coord, unit.target, self.id, arena)
                     self.units[key].pathIndex = 0    
                 if(len(unit.path) > unit.pathIndex):
