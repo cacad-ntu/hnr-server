@@ -95,6 +95,8 @@ def update_client():
         payload = {}
         payload["player_id"] = pid
         payload["points"] = GE.players[pid].points
+        payload["capacity"] = GE.players[pid].capacity
+        payload["population"] = GE.players[pid].population
 
         if GE.players[pid].isDead:
             msg["type"] = MSG_DEAD
