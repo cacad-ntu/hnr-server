@@ -151,6 +151,8 @@ class Engine:
         # attack notification
 
         # check for buildings being attacked
+        self.cleanUpCounter -= 1
+        print(self.cleanUpCounter)
         if(self.cleanUpCounter == 0):
             self.cleanUpUnits()
             self.cleanUpCounter = C.CLEAN_UP_TICKS
