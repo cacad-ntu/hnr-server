@@ -49,4 +49,6 @@ class Constants:
     HQ_HP = 30
     TOWER_HP = 15
 
-    STUCKED_TOLERANCE = 3
+    STUCKED_TOLERANCE = 2
+
+    MAX_PLAYER = 5
